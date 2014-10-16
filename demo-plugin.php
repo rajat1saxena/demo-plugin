@@ -69,4 +69,52 @@ function title_profanity_options(){
 	echo '<h2>Title changer/Profanity filter Options</h2>';
 	echo '</div>';
 }
+
+// Creation of Db table for the plugin
+global $tpf_version;
+$tpf_version = '1.0';
+
+class DBHelper{
+  // Function to create table
+  function install_table(){
+    global $wpdb;
+    $tablename = $wpdb->prefix."profanity_filter";
+    
+    $installed_version = get_option('tpf_version');
+    if(($installed_version) != $tpf_version){
+      $charset_collate = '';
+
+      if ( ! empty( $wpdb->charset ) ) {
+        $charset_collate = "DEFAULT CHARACTER SET {$wpdb->charset}";
+      }
+
+      if ( ! empty( $wpdb->collate ) ) {
+        $charset_collate .= " COLLATE {$wpdb->collate}";
+      }
+      
+      $sql = "create table $tablename (
+        id int(5) not null auto_increment,
+        filterword varchar2(20) not null,
+        replacewith varchar2(20) not null,
+        unique key id (id)
+      ) $charset_collate;";
+      
+      require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+      dbDelta( $sql );
+      
+      update_option('tpf_version',$tpf_version);
+    }
+  }
+  
+  // Function to check if plugin version has been updated
+  function check_update(){
+    
+  }
+}
+
+// Create table while installing the plugin
+register_activation_hook( __FILE__, array('DBHelper','install_table'));
+
+// Check for table's version update as the activation_hook is not run while updating the plugin
+add_action('plugin_loaded',array('DBHelper','install_table'));
 ?>
