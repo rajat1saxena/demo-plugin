@@ -74,14 +74,18 @@ function title_profanity_options(){
 global $tpf_version;
 $tpf_version = '1.0';
 
-class DBHelper{
+class DBHelper{ 
+  
   // Function to create table
-  function install_table(){
+  static function install_table(){
     global $wpdb;
+    global $tpf_version;
+    
     $tablename = $wpdb->prefix."profanity_filter";
     
     $installed_version = get_option('tpf_version');
-    if(($installed_version) != $tpf_version){
+    //($installed_version) != $tpf_version
+    if(true){
       $charset_collate = '';
 
       if ( ! empty( $wpdb->charset ) ) {
@@ -107,7 +111,7 @@ class DBHelper{
   }
   
   // Function to check if plugin version has been updated
-  function check_update(){
+  static function check_update(){
     
   }
 }
