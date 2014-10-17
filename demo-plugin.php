@@ -12,6 +12,10 @@
 // blocking direct access
 defined('ABSPATH') or die("No playing around");
 
+// Creation of Db table for the plugin
+global $tpf_version;
+$tpf_version = '1.0';
+
 class titleChanger{
 	static function change_title($title){
 	return "[Changed]".$title;
@@ -67,12 +71,9 @@ function title_profanity_options(){
 
 	echo '<div class="wrap">';
 	echo '<h2>Title changer/Profanity filter Options</h2>';
+  echo 'Version '.get_option('tpf_version');
 	echo '</div>';
 }
-
-// Creation of Db table for the plugin
-global $tpf_version;
-$tpf_version = '1.0';
 
 class DBHelper{ 
   
@@ -85,7 +86,7 @@ class DBHelper{
     
     $installed_version = get_option('tpf_version');
     //($installed_version) != $tpf_version
-    if(true){
+    if(1){
       $charset_collate = '';
 
       if ( ! empty( $wpdb->charset ) ) {
@@ -96,11 +97,11 @@ class DBHelper{
         $charset_collate .= " COLLATE {$wpdb->collate}";
       }
       
-      $sql = "create table $tablename (
-        id int(5) not null auto_increment,
-        filterword varchar2(20) not null,
-        replacewith varchar2(20) not null,
-        primary key  (id)
+      $sql = "CREATE TABLE $tablename (
+        id mediumint(9) NOT NULL AUTO_INCREMENT,
+        filter varchar(55) NOT NULL,
+        replacewith varchar(55) NOT NULL,
+        UNIQUE KEY id (id)
       ) $charset_collate;";
       
       require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
