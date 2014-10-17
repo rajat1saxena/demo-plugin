@@ -96,7 +96,7 @@ class DBHelper{
         id int(5) not null auto_increment,
         filterword varchar2(20) not null,
         replacewith varchar2(20) not null,
-        unique key id (id)
+        primary key  (id)
       ) $charset_collate;";
       
       require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
