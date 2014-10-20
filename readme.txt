@@ -1,1 +1,1 @@
-This is the demo Wordpress plugin which prepends text to the title of the post and filter obscene words from your posts.
+This is the demo Wordpress plugin which prepends text to the title of the post and filter obscene words from your posts. Not for production sites!!!
